@@ -7,32 +7,32 @@ import { UpdateMediaDto } from "./dto/update.media.dto";
 export class MediasRepository {
     constructor(private readonly prisma: PrismaService) { }
 
-    createMedia(body: CreateMediaDto) {
-        return this.prisma.media.create({
+    async createMedia(body: CreateMediaDto) {
+        return await this.prisma.media.create({
             data: body
         });
     }
 
-    findAll() {
-        return this.prisma.media.findMany();
+    async findAll() {
+        return await this.prisma.media.findMany();
     }
 
-    findById(id: number) {
-        return this.prisma.media.findUnique({
+    async findById(id: number) {
+        return await this.prisma.media.findUnique({
             where: { id }
         });
     }
 
-    updateMedia(id: number, body: UpdateMediaDto) {
-        return this.prisma.media.update({
+    async updateMedia(id: number, body: UpdateMediaDto) {
+        return await this.prisma.media.update({
             where: { id },
             data:
                 body
         })
     }
 
-    deleteMedia(id: number) {
-        return this.prisma.media.delete({
+    async deleteMedia(id: number) {
+        return await this.prisma.media.delete({
             where: { id }
         });
     }

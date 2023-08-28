@@ -7,29 +7,29 @@ import { UpdatePublicationDto } from "./dto/update.publication.dto";
 export class PublicationsRepository {
     constructor(private readonly prisma: PrismaService) { }
 
-    createPublication(body: CreatePublicationDto) {
-        return this.prisma.publication.create({ data: body });
+    async createPublication(body: CreatePublicationDto) {
+        return await this.prisma.publication.create({ data: body });
     }
 
-    findAll() {
-        return this.prisma.publication.findMany();
+    async findAll() {
+        return await this.prisma.publication.findMany();
     }
 
-    findById(id: number) {
-        return this.prisma.publication.findUnique({
+    async findById(id: number) {
+        return await this.prisma.publication.findUnique({
             where: { id }
         });
     }
 
-    updatePublication(id: number, body: UpdatePublicationDto) {
-        return this.prisma.publication.update({
+    async updatePublication(id: number, body: UpdatePublicationDto) {
+        return await this.prisma.publication.update({
             where: { id },
             data: body
         });
     }
 
-    deletePublication(id: number) {
-        return this.prisma.publication.delete({
+    async deletePublication(id: number) {
+        return await this.prisma.publication.delete({
             where: { id }
         });
     }

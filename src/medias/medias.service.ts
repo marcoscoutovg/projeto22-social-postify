@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateMediaDto } from './dto/create.media.dto';
 import { UpdateMediaDto } from './dto/update.media.dto';
+import { MediasRepository } from './medias.repository';
 
 @Injectable()
 export class MediasService {
-    create(createMediaDto: CreateMediaDto) {
-        return 'This action adds a new media';
+    constructor(
+        private readonly mediasRepository: MediasRepository
+    ) { }
+
+    async createMedia(body: CreateMediaDto) {
+        return await this.mediasRepository.createMedia(body);
     }
 
-    findAll() {
-        return `This action returns all medias`;
+    async findAll() {
+        return await this.mediasRepository.findAll();
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} media`;
+    async findById(id: number) {
+        const media = await this.mediasRepository.findById(id);
+
+        if (!media) {
+            throw new HttpException('Media not found', HttpStatus.NOT_FOUND);
+        }
+
+        return media;
     }
 
-    update(id: number, updateMediaDto: UpdateMediaDto) {
-        return `This action updates a #${id} media`;
+    async updateMedia(id: number, body: UpdateMediaDto) {
+        const media = await this.mediasRepository.findById(id);
+
+        if (!media) {
+            throw new HttpException('Media not found', HttpStatus.NOT_FOUND);
+        }
+
+        return await this.mediasRepository.updateMedia(id, body);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} media`;
+    async deleteMedia(id: number) {
+        const media = await this.mediasRepository.findById(id);
+
+        if (!media) {
+            throw new HttpException('Media not found', HttpStatus.NOT_FOUND);
+        }
+
+        return await this.mediasRepository.deleteMedia(id);
     }
 }
